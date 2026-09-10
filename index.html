@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess do "CP67"</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Chess do "CP67"</h1>
+      <div id="status" class="status">Escolha um modo de jogo</div>
+    </header>
+
+    <!-- Menu Principal -->
+    <div id="menu-screen" class="menu-screen">
+      <h2>Modos de Jogo</h2>
+      
+      <button class="menu-btn pvp-btn" onclick="selectGameMode('pvp')">
+        <span class="btn-icon">⚔️</span> 2 Jogadores (Local)
+      </button>
+
+      <h3>Jogar contra a IA (Bot)</h3>
+      <div class="bots-grid">
+        <button class="bot-card" onclick="selectGameMode('bot', 200)">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Iniciante" alt="Avatar Noob" class="bot-avatar">
+          <div class="bot-info">
+            <span class="bot-name">Noob Bot</span>
+            <span class="bot-rating">Rating: 200</span>
+          </div>
+        </button>
+
+        <button class="bot-card" onclick="selectGameMode('bot', 600)">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Aprendiz" alt="Avatar Aprendiz" class="bot-avatar">
+          <div class="bot-info">
+            <span class="bot-name">Aprendiz Bot</span>
+            <span class="bot-rating">Rating: 600</span>
+          </div>
+        </button>
+
+        <button class="bot-card" onclick="selectGameMode('bot', 1000)">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Estrategista" alt="Avatar Estrategista" class="bot-avatar">
+          <div class="bot-info">
+            <span class="bot-name">Estrategista Bot</span>
+            <span class="bot-rating">Rating: 1000</span>
+          </div>
+        </button>
+
+        <button class="bot-card" onclick="selectGameMode('bot', 1500)">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Mestre" alt="Avatar Mestre" class="bot-avatar">
+          <div class="bot-info">
+            <span class="bot-name">Mestre CP67</span>
+            <span class="bot-rating">Rating: 1500</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tela do Jogo -->
+    <div id="game-screen" class="game-screen hidden">
+      <div class="top-bar">
+        <button class="back-btn" onclick="showMenu()">← Voltar ao Menu</button>
+        <div id="bot-display-info" class="bot-display-info hidden"></div>
+      </div>
+
+      <!-- Caixa de Análise do Bot -->
+      <div id="analysis-box" class="analysis-box hidden">
+        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Analisador" class="analyst-avatar" alt="Bot Analisador">
+        <div class="analysis-text">
+          <span class="analyst-title">Bot Analisador:</span>
+          <span id="analysis-evaluation" class="evaluation-tag">-</span>
+        </div>
+      </div>
+
+      <main>
+        <div class="board-frame">
+          <div class="coords coords-top"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div>
+          <div class="coords coords-left"><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+          
+          <div class="board-wrapper">
+            <div id="board" class="board"></div>
+            <!-- Camada de Animação de Peças -->
+            <div id="pieces-layer"></div>
+          </div>
+
+          <div class="coords coords-right"><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+          <div class="coords coords-bottom"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div>
+        </div>
+      </main>
+
+      <!-- Painel de Navegação de Revisão -->
+      <div id="review-controls" class="review-controls hidden">
+        <button class="nav-btn" id="prev-btn" onclick="navigateHistory(-1)">&lt;</button>
+        <span id="move-counter" class="move-counter">Lance: 0 / 0</span>
+        <button class="nav-btn" id="next-btn" onclick="navigateHistory(1)">&gt;</button>
+      </div>
+
+      <footer class="captures-container">
+        <div class="player-panel" id="panel-white">
+          <div class="panel-header">
+            <span class="player-name" id="white-label">Brancas</span>
+            <span class="advantage" id="adv-white"></span>
+          </div>
+          <div class="captured-pieces" id="captured-by-white"></div>
+        </div>
+
+        <div class="player-panel" id="panel-black">
+          <div class="panel-header">
+            <span class="player-name" id="black-label">Pretas</span>
+            <span class="advantage" id="adv-black"></span>
+          </div>
+          <div class="captured-pieces" id="captured-by-black"></div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal Fim de Jogo -->
+  <div id="game-over-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="winner-message">Xeque-Mate!</h2>
+      <div class="modal-buttons">
+        <button onclick="startReviewMode()">🔍 Rever Partida</button>
+        <button onclick="resetGame()">Tentar Novamente</button>
+        <button onclick="showMenu()">Menu Principal</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
